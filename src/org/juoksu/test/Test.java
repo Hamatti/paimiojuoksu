@@ -21,8 +21,7 @@ public class Test {
 		sh.addSerie("M", 101, 160);
 		sh.addSerie("N", 161, 200);
 		assertTrue("Juoksija lisätty", sh.isRunnerIn(new Runner(120, "Mikko Mallikas", "Paimion Urheilijat")));
-		
-		
 	}
+	
 
 }

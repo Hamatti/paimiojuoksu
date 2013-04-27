@@ -7,6 +7,7 @@ public class Serie {
 
 		private String name;
 		private int low, high;
+		private List<Integer> removed_numbers;
 		private ArrayList<Runner> runners;
 		private ArrayList<Integer> exceptions;
 		
@@ -16,6 +17,7 @@ public class Serie {
 			this.high = h;
 			runners = new ArrayList<Runner>();
 			exceptions = new ArrayList<Integer>();
+			removed_numbers = new ArrayList<Integer>();
 		}
 		
 		public String getName() {
@@ -43,7 +45,7 @@ public class Serie {
 		}
 
 		public boolean inRange(int n) {
-			return n >= low && n <= high;
+			return (n >= low && n <= high && !removed_numbers.contains(n)) || exceptions.contains(n);
 		}
 		
 		public void addException(int n) {
@@ -53,6 +55,8 @@ public class Serie {
 		public void removeException(int n) {
 			exceptions.remove(n);
 		}
+		
+
 		
 		@Override
 		public String toString() {
@@ -122,5 +126,23 @@ public class Serie {
 
 	public String HTMLcaption() {
 		return "<caption>" + name + "</caption>";
+	}
+
+	public void removeNumber(int number) {
+		removed_numbers.add(number);
+	}
+
+	public Runner getRunnerByNumber(int n) {
+		for(Runner r : runners) {
+			if(r.getNumber() == n) {
+				return r;
+			}
+		}
+		return null;
+	}
+
+	public void removeRunner(Runner r) {
+		runners.remove(r);
+		
 	}
 }

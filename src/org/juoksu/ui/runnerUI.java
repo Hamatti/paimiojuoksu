@@ -6,11 +6,15 @@ import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 
+import org.juoksu.data.Runner;
+import org.juoksu.data.Serie;
 import org.juoksu.run.MainClass;
 
 import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -82,12 +86,11 @@ public class runnerUI {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-            }
-            return file;
-            
+            }            
 		}
 		mainclass = new MainClass();
 		mainclass.setUp("39. Paimio-juoksu");
+		if (file != null) return file;
 		return null;
 		
 	}
@@ -229,6 +232,41 @@ public class runnerUI {
 		});
 		mnView.add(mntmHtml);
 		
+		JMenu mnPoikkeukset = new JMenu("Poikkeukset");
+		menuBar.add(mnPoikkeukset);
+		
+		JMenuItem mntmLisPoikkeusSarjaan = new JMenuItem("Lis\u00E4\u00E4 poikkeus sarjaan");
+		mntmLisPoikkeusSarjaan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JTextField serie = new JTextField();
+				JTextField number = new JTextField();
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("Serie"),
+						serie,
+						new JLabel("Number"),
+						number,
+						
+				};
+				JOptionPane.showMessageDialog(null, inputs, "Lis‰‰ poikkeus", JOptionPane.PLAIN_MESSAGE);
+				int runner_number = Integer.parseInt(number.getText());
+				Serie newSerie = mainclass.getSh().findSerie(serie.getText());
+				Serie oldSerie = mainclass.getSh().findSerieByRange(runner_number);
+				Runner r = oldSerie.getRunnerByNumber(runner_number);
+				System.out.println("You entered " +
+						newSerie.getName() + ": " +
+						number.getText());
+				if (newSerie != null) {
+					oldSerie.removeRunner(r);
+					
+					newSerie.addRunner(r);
+					newSerie.addException(runner_number);
+					oldSerie.removeNumber(runner_number);
+				}
+			
+			}
+		});
+		mnPoikkeukset.add(mntmLisPoikkeusSarjaan);
+		
 		JMenu mnAbout = new JMenu("Apua");
 		menuBar.add(mnAbout);
 		
@@ -263,22 +301,22 @@ public class runnerUI {
 		panel.setLayout(null);
 		
 		JLabel lblNumero = new JLabel("NRO #");
-		lblNumero.setBounds(198, 60, 52, 14);
+		lblNumero.setBounds(52, 60, 52, 14);
 		panel.add(lblNumero);
 		
 		txtNumero = new JTextField();
-		txtNumero.setBounds(199, 76, 52, 20);
+		txtNumero.setBounds(52, 76, 52, 20);
 		txtNumero.setToolTipText("numero");
 		panel.add(txtNumero);
 		txtNumero.setColumns(10);
 		
 		txtNimi = new JTextField();
-		txtNimi.setBounds(261, 76, 86, 20);
+		txtNimi.setBounds(114, 76, 160, 20);
 		panel.add(txtNimi);
 		txtNimi.setColumns(10);
 		
 		txtSeura = new JTextField();
-		txtSeura.setBounds(368, 76, 86, 20);
+		txtSeura.setBounds(284, 76, 168, 20);
 		panel.add(txtSeura);
 		txtSeura.setColumns(10);
 		
@@ -299,44 +337,45 @@ public class runnerUI {
 				txtSeura.setText(null);
 			}
 		});
-		btnLisJuoksija.setBounds(464, 75, 194, 23);
+		btnLisJuoksija.setBounds(462, 75, 194, 23);
 		panel.add(btnLisJuoksija);
 		
 		JLabel lblNimi = new JLabel("Nimi");
-		lblNimi.setBounds(260, 60, 87, 14);
+		lblNimi.setBounds(114, 60, 87, 14);
 		panel.add(lblNimi);
 		
 		JLabel lblSeura = new JLabel("Seura");
-		lblSeura.setBounds(368, 60, 86, 14);
+		lblSeura.setBounds(284, 60, 86, 14);
 		panel.add(lblSeura);
 		
 		JLabel lblLisJuoksija = new JLabel("LIS\u00C4\u00C4 JUOKSIJA");
 		lblLisJuoksija.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLisJuoksija.setFont(new Font("Shonar Bangla", Font.BOLD, 24));
+		lblLisJuoksija.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblLisJuoksija.setBounds(30, 11, 239, 41);
 		panel.add(lblLisJuoksija);
 		
 		added_runner_label = new JLabel("");
 		added_runner_label.setFont(new Font("Arial", Font.BOLD, 15));
-		added_runner_label.setBounds(103, 167, 555, 76);
+		added_runner_label.setBounds(101, 107, 555, 76);
 		panel.add(added_runner_label);
 		
 			
 		panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Lis\u00E4\u00E4 tulos");
-		lblNewLabel.setFont(new Font("Shonar Bangla", Font.PLAIN, 55));
-		lblNewLabel.setBounds(10, 11, 300, 87);
+		JLabel lblNewLabel = new JLabel("LIS\u00C4\u00C4 TULOS");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblNewLabel.setBounds(10, 11, 260, 61);
 		panel_1.add(lblNewLabel);
 		
 		add_nro_field = new JTextField();
-		add_nro_field.setBounds(72, 143, 86, 20);
+		add_nro_field.setBounds(59, 90, 86, 20);
 		panel_1.add(add_nro_field);
 		add_nro_field.setColumns(10);
 		
 		add_time_field = new JTextField();
-		add_time_field.setBounds(193, 143, 86, 20);
+		add_time_field.setBounds(155, 90, 86, 20);
 		panel_1.add(add_time_field);
 		add_time_field.setColumns(10);
 		
@@ -362,25 +401,33 @@ public class runnerUI {
 				catch(NullPointerException exception) {
 					added_result_label.setText(exception.getMessage());
 				}
+				catch(Exception exception) {
+					added_result_label.setText(exception.getMessage());
+					
+				}
 				
 				add_nro_field.setText(null);
 				add_time_field.setText(null);
 			}
 		});
-		addTimeBtn.setBounds(321, 108, 95, 55);
+		addTimeBtn.setBounds(305, 83, 86, 34);
 		panel_1.add(addTimeBtn);
 		
-		JLabel add_number_label = new JLabel("NRO");
-		add_number_label.setFont(new Font("Shonar Bangla", Font.PLAIN, 13));
-		add_number_label.setHorizontalAlignment(SwingConstants.CENTER);
-		add_number_label.setBounds(72, 109, 86, 34);
+		JLabel add_number_label = new JLabel("NRO #");
+		add_number_label.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		add_number_label.setHorizontalAlignment(SwingConstants.LEFT);
+		add_number_label.setBounds(59, 60, 86, 34);
 		panel_1.add(add_number_label);
 		
 		JLabel add_time_label = new JLabel("Aika (h.m,s)");
-		add_time_label.setFont(new Font("Shonar Bangla", Font.PLAIN, 13));
-		add_time_label.setHorizontalAlignment(SwingConstants.CENTER);
-		add_time_label.setBounds(193, 109, 86, 34);
+		add_time_label.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		add_time_label.setHorizontalAlignment(SwingConstants.LEFT);
+		add_time_label.setBounds(155, 60, 86, 34);
 		panel_1.add(add_time_label);
+		
+//		tabbedPane.add(panel);
+//		tabbedPane.add(panel_1);
+		
 		
 		
 	}

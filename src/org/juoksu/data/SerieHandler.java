@@ -1,11 +1,14 @@
 package org.juoksu.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SerieHandler {
 	
 	private List<Serie> series;
+	
 	
 	public SerieHandler() {
 		series = new ArrayList<Serie>();
@@ -13,9 +16,11 @@ public class SerieHandler {
 	
 	public void addRunner(int number, String name, String team) {
 		Serie s = findSerieByRange(number);
+		
 		if (s != null) {
 			s.addRunner(new Runner(number, name, team));
-		}		
+		}
+		
 	}
 	
 	public void addRunner(int number, String name, String team, String time) {
@@ -26,7 +31,7 @@ public class SerieHandler {
 		
 	}
 	
-	private Serie findSerieByRange(int number) {
+	public Serie findSerieByRange(int number) {
 		for (Serie s : series) {
 			if(s.inRange(number)){
 				return s;
@@ -66,14 +71,16 @@ public class SerieHandler {
 		System.out.println("Etsit‰‰n juoksijaa nro " + n);
 		List<Runner> runners = null;
 		boolean found = false;
+	
 		for ( Serie s : series) {
-			if (n >= s.getLow() && n <= s.getHigh()) {
+			if (s.inRange(n)) {
 				System.out.println("Juoksija on sarjassa " + s.getName());
 				runners = s.getRunners();
 				found = true;
 				break;
 			}
 		}
+
 		if (!found) {
 			return null;
 		}
@@ -87,14 +94,13 @@ public class SerieHandler {
 		return null;
 	}
 
-	public boolean findSerie(String name) {
+	public Serie findSerie(String name) {
 		for(Serie s : series) {
 			if(s.getName().equals(name)) {
-				return true;
+				return s;
 			}
 		}
-		return false;
+		return null;
 	}
 
-	
 }

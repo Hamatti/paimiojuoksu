@@ -40,8 +40,7 @@ public class MainClass {
 	public void addRunner(String runner) {
 		String[] runner_info = runner.split(",");
 		sh.addRunner(Integer.parseInt(runner_info[0]), runner_info[1], runner_info[2]);
-		printRunners();
-		
+		printRunners();		
 	}
 
 	public SerieHandler getSh() {
@@ -51,20 +50,19 @@ public class MainClass {
 	
 	private  void sortAll() {
 		for (Serie s : sh.getSeries()) {
-			Collections.sort(s.getRunners());
+			if(s.getRunners() != null)
+				Collections.sort(s.getRunners());
 		}
 	}
 	
 	public void addTime(int runnerNumber, String time) throws NullPointerException {
 		Runner r;
-		
-			r = sh.findRunnerByNumber(runnerNumber);
-			if (r == null) {
-				throw new NullPointerException("Juoksijaa #" + runnerNumber + " ei löydy");
-			}
-			r.setTime(time);
 	
-		
+		r = sh.findRunnerByNumber(runnerNumber);
+		if (r == null) {
+			throw new NullPointerException("Juoksijaa #" + runnerNumber + " ei löydy");
+		}
+		r.setTime(time);	
 	}
 	
 	private  int[] getNumbers() {
@@ -198,7 +196,7 @@ public class MainClass {
 				}
 				if(series) {
 					String[] parts = line.split(":");
-					if (!sh.findSerie(parts[0])) {
+					if (sh.findSerie(parts[0]) == null) {
 						sh.addSerie(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
 						System.out.println("Lisättiin sarja " + parts[0]);
 					}
