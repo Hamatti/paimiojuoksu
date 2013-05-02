@@ -47,7 +47,6 @@ public class SerieHandler {
 	 * 
 	 */
 	public void addSerie(String seriesName, int low, int high, String desc) {
-		
 		series.add(new Serie(seriesName, low, high, desc));
 	}
 

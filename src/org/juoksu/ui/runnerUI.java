@@ -45,7 +45,7 @@ public class runnerUI {
 	private MainClass mainclass;
 	private JTextField add_nro_field;
 	private JTextField add_time_field;
-	private JLabel added_result_label;
+	private JLabel added_result_label, allSeriesLabel;
 	private JLabel added_runner_label; 
 	private JPanel panel, panel_1, panel_2;
 	private JLabel file_menu_label;
@@ -203,6 +203,7 @@ public class runnerUI {
 				}
 				
 				
+				
 			}
 		});
 		mnTuo.add(mntmTuoSarjatTiedostosta);
@@ -298,6 +299,39 @@ public class runnerUI {
 			}
 		});
 		
+		JMenuItem mntmLisSarja = new JMenuItem("Lis\u00E4\u00E4 sarja");
+		mntmLisSarja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				JTextField serieName = new JTextField();
+				JTextField low = new JTextField();
+				JTextField high = new JTextField();
+				JTextField description = new JTextField();
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("Sarjan nimi"),
+						serieName,
+						new JLabel("Alaraja"),
+						low,
+						new JLabel("Yläraja"),
+						high,
+						new JLabel("Kuvaus"),
+						description
+						
+				};
+				
+				JOptionPane.showMessageDialog(null, inputs, "Muokkaa nimeä", JOptionPane.PLAIN_MESSAGE);
+				if(serieName.getText().equals("") || low.getText().equals("") || high.getText().equals("") || description.getText().equals("")) {
+					return;
+				}
+				String seriesName = serieName.getText();
+				int lowBound = Integer.parseInt(low.getText());
+				int highBound = Integer.parseInt(high.getText());
+				String descriptionText = description.getText();
+				mainclass.getSh().addSerie(seriesName, lowBound, highBound, descriptionText);
+			}
+		});
+		mnPoikkeukset.add(mntmLisSarja);
+		
 		mnPoikkeukset.add(mntmMuokkaaNime);
 		
 		JMenuItem mntmMuokkaaJoukkuetta = new JMenuItem("Muokkaa joukkuetta");
@@ -374,6 +408,10 @@ public class runnerUI {
 		txtSeura.setBounds(284, 76, 168, 20);
 		panel.add(txtSeura);
 		txtSeura.setColumns(10);
+		
+		allSeriesLabel = new JLabel("");
+		allSeriesLabel.setBounds(58, 199, 710, 298);
+		panel.add(allSeriesLabel);
 		
 		JButton btnLisJuoksija = new JButton("Lis\u00E4\u00E4 juoksija");
 		btnLisJuoksija.addActionListener(new ActionListener() {
@@ -470,6 +508,7 @@ public class runnerUI {
 		addTimeBtn.setBounds(305, 83, 86, 34);
 		panel_1.add(addTimeBtn);
 		
+			
 		JLabel add_number_label = new JLabel("NRO #");
 		add_number_label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add_number_label.setHorizontalAlignment(SwingConstants.LEFT);
@@ -482,8 +521,9 @@ public class runnerUI {
 		add_time_label.setBounds(155, 60, 86, 34);
 		panel_1.add(add_time_label);
 		
-//		tabbedPane.add(panel);
-//		tabbedPane.add(panel_1);
+		/* Comment these out to have them in the design tab for changes */
+		tabbedPane.add(panel);
+		tabbedPane.add(panel_1);
 		
 		
 		

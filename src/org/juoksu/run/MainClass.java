@@ -62,11 +62,15 @@ public class MainClass {
 	
 		r = sh.findRunnerByNumber(runnerNumber);
 		if (r == null) {
+			logger.log("Juoksijaa #" + runnerNumber + " ei löytynyt");
 			throw new NullPointerException("Juoksijaa #" + runnerNumber + " ei löydy");
+			
 		}
 		r.setTime(time);	
 	}
 	
+
+	@SuppressWarnings("unused")
 	private  int[] getNumbers() {
 		int runnersCount = 0;
 		for (Serie s : sh.getSeries()) {
@@ -84,9 +88,7 @@ public class MainClass {
 		return nums;
 	}
 
-	
-	
-	private  void printRunners() {
+	private void printRunners() {
 		for (Serie s : sh.getSeries()) {
 			System.out.println(s.getName());
 			for (Runner r : s.getRunners()) {
@@ -110,7 +112,7 @@ public class MainClass {
 	}
 	
 	public void readSeriesFromFile(String filename) {
-		/* Input in format [series],[low],[high] */
+		/* Input in format [series],[low],[high],[desc] */
 		try {
 			BufferedReader reader = new BufferedReader( new FileReader (filename));
 			String line = "";

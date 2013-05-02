@@ -130,7 +130,7 @@ public class Serie {
 	}
 
 	public String HTMLcaption() {
-		return "<caption>" + name + "</caption>";
+		return "<caption>" + description + "</caption>";
 	}
 
 	public void removeNumber(int number) {

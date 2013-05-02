@@ -11,7 +11,6 @@ import java.util.Date;
 public class Logger {
 	
 	private File logfile;
-	private File errorlog;
 	
 	public Logger(String logfile) {
 		this.logfile = new File(logfile);
