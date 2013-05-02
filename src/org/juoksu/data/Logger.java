@@ -22,7 +22,7 @@ public class Logger {
 	
 	public void log(String s) {
 		try {
-			FileWriter fstream = new FileWriter(logfile);
+			FileWriter fstream = new FileWriter(logfile, true);
 			BufferedWriter out = new BufferedWriter(fstream);
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH-mm-ss");
 			Date date = new Date();
