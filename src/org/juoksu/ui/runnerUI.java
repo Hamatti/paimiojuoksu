@@ -14,7 +14,6 @@ import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -82,9 +81,8 @@ public class runnerUI {
             if (!file.isFile()) {
             	try {
 					file.createNewFile();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (IOException exception) {
+					exception.printStackTrace();
 				}
             }            
 		}

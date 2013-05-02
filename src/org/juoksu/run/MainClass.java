@@ -30,6 +30,7 @@ public class MainClass {
 	private final String HTML_FILENAME = "C:\\paimio-juoksu.html";
 	
 	private SerieHandler sh;
+	@SuppressWarnings("unused")
 	private String name;
 	private Logger logger;
 	
@@ -37,12 +38,13 @@ public class MainClass {
 		this.name = name;
 		sh = new SerieHandler();
 		logger = new Logger("C:\\log.txt");
+		logger.log("Created new competition " + name);
 	}
 	
 	public void addRunner(String runner) {
 		String[] runner_info = runner.split(",");
 		sh.addRunner(Integer.parseInt(runner_info[0]), runner_info[1], runner_info[2]);
-		printRunners();		
+		logger.log("Added runner: " + Integer.parseInt(runner_info[0]) + "," + runner_info[1] + "," + runner_info[2]);		
 	}
 
 	public SerieHandler getSh() {
@@ -66,61 +68,25 @@ public class MainClass {
 			throw new NullPointerException("Juoksijaa #" + runnerNumber + " ei löydy");
 			
 		}
-		r.setTime(time);	
+		r.setTime(time);
+		logger.log("Added time " + time.toString() + " for runner " + r.getName());
 	}
 	
 
-	@SuppressWarnings("unused")
-	private  int[] getNumbers() {
-		int runnersCount = 0;
-		for (Serie s : sh.getSeries()) {
-			runnersCount += s.getRunners().size();
-		}
-		int[] nums = new int[runnersCount];
-		int i = 0;
-		for (Serie s : sh.getSeries()) {
-			for (Runner r : s.getRunners()) {
-				nums[i] = r.getNumber();
-				++i;
-			}
-		}
-		
-		return nums;
-	}
-
-	private void printRunners() {
-		for (Serie s : sh.getSeries()) {
-			System.out.println(s.getName());
-			for (Runner r : s.getRunners()) {
-				System.out.println(r);
-			}
-		}
-	}
-	
-	
-	@SuppressWarnings("unused")
-	private  void printTopThree() {
-		for (Serie s : sh.getSeries()) {
-			System.out.println(s.getName());
-			int i = 1;
-			for (Runner r : s.getTopThree()) {
-				System.out.println(i + ". " + r);
-				++i;
-			}
-			
-		}
-	}
 	
 	public void readSeriesFromFile(String filename) {
 		/* Input in format [series],[low],[high],[desc] */
 		try {
 			BufferedReader reader = new BufferedReader( new FileReader (filename));
 			String line = "";
+			int seriesCount = 0;
 			while( (line = reader.readLine() ) != null ) {
 				String[] series_parts = line.split(",");
 				sh.addSerie(series_parts[0], Integer.parseInt(series_parts[1]), Integer.parseInt(series_parts[2]), series_parts[3]);
+				seriesCount++;
 			}
 			reader.close();
+			logger.log("Luettiin " + seriesCount + " sarjaa"); 
 		}
 		catch (IOException e) {
 			return;
@@ -134,6 +100,7 @@ public class MainClass {
 		try {
 			BufferedReader reader = new BufferedReader( new FileReader (filename));
 			String line = "";
+			int runnerCount = 0;
 			while( (line = reader.readLine() ) != null ) {
 				String[] runner_parts = line.split(",");
 				Runner r = new Runner(Integer.parseInt(runner_parts[0]), runner_parts[1], runner_parts[2]);
@@ -141,8 +108,10 @@ public class MainClass {
 				if (runner_parts.length > 3) {
 					r.setTime(runner_parts[3].trim());						
 				}
+				runnerCount++;
 			}
 			reader.close();
+			logger.log("Luettiin " + runnerCount + " juoksijaa");
 		}
 		catch (IOException e) {
 			return;
@@ -173,6 +142,7 @@ public class MainClass {
 			}
 			out.write(HTML_BODY_END);
 			out.close();
+			logger.log("Generated HTML file " + HTML_FILENAME);
 		}
 		catch (IOException e) {
 			return;
@@ -216,6 +186,7 @@ public class MainClass {
 			}
 			//printRunners();
 			reader.close();
+			logger.log("Opened file " + file.getAbsolutePath());
 			
 		}
 		catch(IOException ioe) {
@@ -239,6 +210,7 @@ public class MainClass {
 			}
 		}
 		out.close();
+		logger.log("Saved to file " + file.getAbsolutePath());
 	}
 
 	public void writeParticipantsList() {
@@ -254,7 +226,9 @@ public class MainClass {
 				}
 			}
 			out.close();
+			logger.log("Wrote participants list to file " + PARTICIPANTS_FILE);
 		}
+		
 		catch (IOException e) {
 			return;
 		}

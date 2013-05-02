@@ -26,7 +26,7 @@ public class Logger {
 			BufferedWriter out = new BufferedWriter(fstream);
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH-mm-ss");
 			Date date = new Date();
-			out.write(dateFormat.format(date) + ": " + s);
+			out.write(dateFormat.format(date) + ": " + s + "\n");
 			out.close();
 		}
 		catch(IOException e) {
