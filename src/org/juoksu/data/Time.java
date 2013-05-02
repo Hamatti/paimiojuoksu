@@ -69,6 +69,18 @@ public class Time implements Comparable<Time>{
 
 	@Override
 	public int compareTo(Time o) {
+		if(this.getHours() == 0 && this.getMins() == 0 && this.getSecs() == 0) {
+			if (o.getHours() == 0 && o.getMins() == 0 && o.getSecs() == 0) {
+				return 0;
+			}
+			return 1;
+		}
+		if (o.getHours() == 0 && o.getMins() == 0 && o.getSecs() == 0) {
+			if(this.getHours() == 0 && this.getMins() == 0 && this.getSecs() == 0) {
+				return 0;
+			}
+			return -1;
+		}
 		if (this.getHours() > o.getHours()) {
 			return 1;
 		}

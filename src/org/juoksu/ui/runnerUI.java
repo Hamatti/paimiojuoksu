@@ -225,6 +225,8 @@ public class runnerUI {
 		menuBar.add(mnView);
 		
 		JMenuItem mntmHtml = new JMenuItem("HTML");
+		mntmHtml.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
+		file_menu.add(mntmHtml);
 		mntmHtml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(mainclass != null) mainclass.writeHTML();
@@ -232,7 +234,15 @@ public class runnerUI {
 		});
 		mnView.add(mntmHtml);
 		
-		JMenu mnPoikkeukset = new JMenu("Poikkeukset");
+		JMenuItem mntmOsallistujalista = new JMenuItem("Osallistujalista");
+		mntmOsallistujalista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(mainclass != null) mainclass.writeParticipantsList();
+			}
+		});
+		mnView.add(mntmOsallistujalista);
+		
+		JMenu mnPoikkeukset = new JMenu("Muokkaa");
 		menuBar.add(mnPoikkeukset);
 		
 		JMenuItem mntmLisPoikkeusSarjaan = new JMenuItem("Lis\u00E4\u00E4 poikkeus sarjaan");
@@ -266,6 +276,51 @@ public class runnerUI {
 			}
 		});
 		mnPoikkeukset.add(mntmLisPoikkeusSarjaan);
+		
+		JMenuItem mntmMuokkaaNime = new JMenuItem("Muokkaa nime\u00E4");
+		mntmMuokkaaNime.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JTextField number = new JTextField();
+				JTextField name = new JTextField();
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("Number"),
+						number,
+						new JLabel("Name"),
+						name,
+						
+				};
+				JOptionPane.showMessageDialog(null, inputs, "Muokkaa nimeä", JOptionPane.PLAIN_MESSAGE);
+				int runner_number = Integer.parseInt(number.getText());
+				String newName = name.getText();
+				Runner r = mainclass.getSh().findRunnerByNumber(runner_number);
+				if(!newName.equals(""))
+					r.setName(newName);
+			}
+		});
+		
+		mnPoikkeukset.add(mntmMuokkaaNime);
+		
+		JMenuItem mntmMuokkaaJoukkuetta = new JMenuItem("Muokkaa joukkuetta");
+		mntmMuokkaaJoukkuetta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JTextField number = new JTextField();
+				JTextField name = new JTextField();
+				final JComponent[] inputs = new JComponent[] {
+						new JLabel("Juoksijan numero"),
+						number,
+						new JLabel("Joukkueen nimi"),
+						name,
+						
+				};
+				JOptionPane.showMessageDialog(null, inputs, "Muokkaa joukkuetta", JOptionPane.PLAIN_MESSAGE);
+				int runner_number = Integer.parseInt(number.getText());
+				String newTeamName = name.getText();
+				Runner r = mainclass.getSh().findRunnerByNumber(runner_number);
+				if(!newTeamName.equals(""))
+					r.setTeam(newTeamName);
+			}
+		});
+		mnPoikkeukset.add(mntmMuokkaaJoukkuetta);
 		
 		JMenu mnAbout = new JMenu("Apua");
 		menuBar.add(mnAbout);
@@ -335,6 +390,7 @@ public class runnerUI {
 				txtNumero.setText(null);
 				txtNimi.setText(null);
 				txtSeura.setText(null);
+				txtNumero.requestFocus();
 			}
 		});
 		btnLisJuoksija.setBounds(462, 75, 194, 23);
@@ -408,6 +464,7 @@ public class runnerUI {
 				
 				add_nro_field.setText(null);
 				add_time_field.setText(null);
+				add_nro_field.requestFocus();
 			}
 		});
 		addTimeBtn.setBounds(305, 83, 86, 34);

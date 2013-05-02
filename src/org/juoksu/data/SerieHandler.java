@@ -46,8 +46,9 @@ public class SerieHandler {
 	 * @.pre s.getLow() - s.getHigh() range NOT IN series 
 	 * 
 	 */
-	public void addSerie(String seriesName, int low, int high) {
-		series.add(new Serie(seriesName, low, high));
+	public void addSerie(String seriesName, int low, int high, String desc) {
+		
+		series.add(new Serie(seriesName, low, high, desc));
 	}
 
 	/** Returns all series in list

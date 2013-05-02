@@ -5,16 +5,18 @@ import java.util.List;
 
 public class Serie {
 
-		private String name;
+		private String name, description;
 		private int low, high;
 		private List<Integer> removed_numbers;
 		private ArrayList<Runner> runners;
 		private ArrayList<Integer> exceptions;
-		
-		public Serie(String n, int l, int h) {
+			
+		public Serie(String n, int l, int h, String desc) {
 			this.name = n;
 			this.low = l;
 			this.high = h;
+			this.description = desc;
+			
 			runners = new ArrayList<Runner>();
 			exceptions = new ArrayList<Integer>();
 			removed_numbers = new ArrayList<Integer>();
@@ -30,6 +32,11 @@ public class Serie {
 		
 		public int getHigh() {
 			return high;
+		}
+		
+		public String getDescription() {
+			return description;
+
 		}
 		
 		public void addRunner(Runner r) {
@@ -56,9 +63,7 @@ public class Serie {
 			exceptions.remove(n);
 		}
 		
-
-		
-		@Override
+	@Override
 		public String toString() {
 			return name + ": " + low + "-" + high;
 		}
@@ -121,7 +126,7 @@ public class Serie {
 	}
 
 	public String HTMLtableheader() {
-		return "<table id=\""+name+" sortable\">";
+		return "<table class=\""+name+" sortable\">";
 	}
 
 	public String HTMLcaption() {

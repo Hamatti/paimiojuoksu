@@ -28,6 +28,8 @@ public class Runner implements Comparable<Runner> {
 		setTime(time);
 	}
 	
+
+	
 	/* Getters and setters */
 	public int getNumber() {
 		return number;
@@ -37,8 +39,16 @@ public class Runner implements Comparable<Runner> {
 		return name;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getTeam() {
 		return team;
+	}
+	
+	public void setTeam(String newTeamName) {
+		this.team = newTeamName;
 	}
 	
 	public Time getTime() {
@@ -141,8 +151,11 @@ public class Runner implements Comparable<Runner> {
 	}
 
 	public String toHTMLRow() {
-		return "<td>"+number + "</td><td>"+ name + "</td><td>" + team + "</td><td>" + time.toString() + "</td>";
+		if(this.time.equals(new Time(0,0,0))) return "<td>"+number + "</td><td>"+ name + "</td><td>" + team + "</td><td>" + "--" + "</td>";
+		else return "<td>"+number + "</td><td>"+ name + "</td><td>" + team + "</td><td>" + time.toString() + "</td>";
 	}
+
+
 	
 	
 	
